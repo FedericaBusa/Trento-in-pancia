@@ -28,6 +28,10 @@ firebase.auth().onAuthStateChanged(user => {
   store.dispatch("fetchUser", user);
 });
 
+
+
+
+
 new Vue({
   router,
   store,
