@@ -34,7 +34,7 @@
         <h2>{{ items.length }}</h2>
         <p>Luoghi in cui mangiare.</p>
         <md-button
-          style="background-color: #FFAB50; color: #fff;border-radius:10px; margin: 0 auto; padding: 2px 15px;"
+          style="background-color: #58a3ff; color: #fff;border-radius:10px; margin: 0 auto; padding: 2px 15px;"
           @click="load('all')"
           >Vedi tutti</md-button
         >
@@ -43,7 +43,7 @@
         <h2>{{ rest.length }}</h2>
         <p>Ristoranti e pizzerie, l'eccellenza italiana.</p>
         <md-button
-          style="background-color: #FFAB50; color: #fff;border-radius:10px; margin: 0 auto; padding: 2px 15px;"
+          style="background-color: #58a3ff; color: #fff;border-radius:10px; margin: 0 auto; padding: 2px 15px;"
           @click="load('rest')"
           >Vedi tutti</md-button
         >
@@ -52,7 +52,7 @@
         <h2>{{ bar.length }}</h2>
         <p>Bar, espresso o aperitivo?</p>
         <md-button
-          style="background-color: #FFAB50; color: #fff;border-radius:10px; margin: 0 auto; padding: 2px 15px;"
+          style="background-color: #58a3ff; color: #fff;border-radius:10px; margin: 0 auto; padding: 2px 15px;"
           @click="load('bar')"
           >Vedi tutti</md-button
         >
@@ -61,7 +61,7 @@
         <h2>{{ other.length }}</h2>
         <p>Ristoranti con cui esplorare il mondo</p>
         <md-button
-          style="background-color: #FFAB50; color: #fff;border-radius:10px; margin: 0 auto; padding: 2px 15px;"
+          style="background-color: #58a3ff; color: #fff;border-radius:10px; margin: 0 auto; padding: 2px 15px;"
           @click="load('other')"
           >Vedi tutti</md-button
         >
@@ -282,7 +282,7 @@ export default {
 .container {
   display: flex;
   margin: 0 auto;
-  background-color: #c9f2e3;
+  background-color: #ffa57aff;
   border-radius: 10px;
   width: 80%;
   margin-bottom: 30px;
@@ -333,7 +333,7 @@ export default {
   width: 400px;
   height: 240px;
   border-radius: 10px;
-  background-color: #c9f2e3;
+  background-color: #a3d5ff;
   display: flex;
   flex-direction: column;
   align-content: center;
