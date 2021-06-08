@@ -80,7 +80,7 @@
           >{{ selected.title.it }}</md-dialog-title>
           <md-button
             style="align-self:center;margin: 0px"
-            @click="sendFavorite(selected)"
+            @click="sendFavorite($event,selected)"
             ><md-icon
               :style="{ color: selected.favorites === true ? 'red' : '' }"
               >favorite</md-icon
@@ -188,7 +188,7 @@
               </md-button>
               <md-button
                 style="align-self:center;margin-left:15px"
-                @click="sendFavorite(selected)"
+                @click="sendFavorite($event,selected)"
                 ><md-icon
                   :style="{ color: selected.favorites === true ? 'red' : '' }"
                   >favorite</md-icon
@@ -435,7 +435,7 @@ export default {
             .update({ stars: this.stars })
             .then(() => {
               this.showStarConfirm = false;
-              this.showDialog = false;
+              //this.showDialog = false;
             });
         } else {
           db.collection("votes")
@@ -448,7 +448,7 @@ export default {
             })
             .then(() => {
               this.showStarConfirm = false;
-              this.showDialog = false;
+              //this.showDialog = false;
             });
         }
       }
@@ -460,8 +460,8 @@ export default {
       this.$router.replace({ name: "Login" });
     },
 
-    sendFavorite(v) {
-      console.log(v);
+    sendFavorite(e,v) {
+      console.log(e.target);
       const db = firebase.firestore();
       if (this.user.loggedIn == false) {
         this.showSnackbar = true;
@@ -475,7 +475,8 @@ export default {
               restname: this.selected.title.it,
             })
             .then(() => {
-              this.showDialog = false;
+              //operatore ternario --> if (e.sty === 'red) {} else {}
+              e.target.style.color === 'red' ? e.target.style.color = 'blue' : e.target.style.color= 'red'
             })
             .catch((err) => {
               console.log(err);
@@ -485,7 +486,8 @@ export default {
             .doc(v.docfav)
             .delete()
             .then(() => {
-              this.showDialog = false;
+              //operatore ternario --> if (e.sty === 'red) {} else {}
+              e.target.style.color === 'red' ? e.target.style.color = 'blue' : e.target.style.color= 'red'
             })
             .catch((err) => {
               console.log(err);
