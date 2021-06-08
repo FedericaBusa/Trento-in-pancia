@@ -1,4 +1,4 @@
-<template>
+blue<template>
   <div>
     <div style="display: flex; justify-content:center">
       <md-button @click="load('all')">Tutti</md-button>
@@ -476,7 +476,7 @@ export default {
             })
             .then(() => {
               //operatore ternario --> if (e.sty === 'red) {} else {}
-              e.target.style.color === 'red' ? e.target.style.color = 'blue' : e.target.style.color= 'red'
+              e.target.style.color === 'red' ? e.target.style.color = 'grey' : e.target.style.color= 'red'
             })
             .catch((err) => {
               console.log(err);
@@ -487,7 +487,7 @@ export default {
             .delete()
             .then(() => {
               //operatore ternario --> if (e.sty === 'red) {} else {}
-              e.target.style.color === 'red' ? e.target.style.color = 'blue' : e.target.style.color= 'red'
+              e.target.style.color === 'red' ? e.target.style.color = 'grey' : e.target.style.color= 'red'
             })
             .catch((err) => {
               console.log(err);
