@@ -476,6 +476,7 @@ export default {
             })
             .then(() => {
               //operatore ternario --> if (e.sty === 'red) {} else {}
+              console.log ("ciao")
               e.target.style.color === 'red' ? e.target.style.color = 'grey' : e.target.style.color= 'red'
             })
             .catch((err) => {
