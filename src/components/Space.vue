@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div style="margin-left: 15px;">
-      <md-button @click="loadfunc('fav')">Preferiti</md-button>
-      <md-button @click="loadfunc('vot')">Voti</md-button>
+    <div style="display:flex;flex-direction:row;align-items:center;justify-content:center;">
+      <md-button @click="loadfunc('fav')" style="min-width:unset;">Preferiti</md-button>
+      <div style="height:36px;background-color:black;border-left:1px solid black;"/>
+      <md-button @click="loadfunc('vot')" style="min-width:unset;">Voti</md-button>
     </div>
 
     <template v-if="error == false">
@@ -110,7 +111,9 @@ export default {
     }),
   },
   created() {
-    this.loadfunc("fav");
+    // firebase ci mette un certo tempo a caricare lo user, che inizialmente quindi non è loggato
+    // --> aspettiamo 1 secondo prima di fare il fetch dei fav
+    setTimeout(() => this.loadfunc("fav"), 1000);
   },
 
   methods: {
@@ -118,7 +121,7 @@ export default {
       const db = firebase.firestore();
       this.load = [];
       this.filter = v;
-      if (this.user.loggedIn == true) {
+      if (this.user.loggedIn) {
         if (v === "fav") {
           await db
             .collection("favorites")

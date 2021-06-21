@@ -4,13 +4,14 @@
       <button class="btn btn-3"><span>TrentoInPancia</span></button>
     </router-link>
     <router-link to="list"><md-button>Lista</md-button></router-link>
-    <router-link to="space"><md-button>Space</md-button></router-link>
 
     <template v-if="user.loggedIn">
-      <div>
-        <md-icon>face</md-icon>
-        {{ user.data.displayName }}
-      </div>
+      <router-link to="space" style="color: inherit;text-decoration: none;">
+        <div>
+          <md-icon>face</md-icon>
+          {{ user.data.displayName }}
+        </div>
+      </router-link>
       <md-button @click.prevent="signOut"> Sign out</md-button>
     </template>
 
