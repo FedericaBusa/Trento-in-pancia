@@ -15,11 +15,11 @@
         </h1>
       </div>
 
-      <div style="display: flex;flex-wrap:wrap;margin-top:30px">
+      <div style="display: flex;flex-wrap:wrap;margin-top:30px;justify-content: center;">
         <li
           v-for="(f, index) in load"
           :key="index"
-          style="margin-right:10px; width: 100%; padding:10px;display:flex"
+          style="padding:10px;display:flex;width:100%;justify-content: center;"
         >
           <template v-if="filter == 'fav'">
             <div
@@ -36,7 +36,8 @@
 
           <template v-else>
             <div
-              style="display: flex; width: 100%; justify-content: space-around;"
+              class="item"
+              style="display: flex; justify-content: space-between;"
             >
               <p>
                 <strong>{{ f.restname }} </strong>
@@ -173,6 +174,16 @@ export default {
     display: flex;
     justify-content: center;
     margin: 0;
+  }
+}
+
+.item {
+  width: 550px;
+}
+
+@media screen and (max-width: 600px) {
+  .item {
+    width: 100%;
   }
 }
 
