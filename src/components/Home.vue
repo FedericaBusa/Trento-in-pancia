@@ -153,6 +153,7 @@ import axios from "axios";
 import firebase from "firebase";
 
 export default {
+  //funzione che ti ritorna un oggetto le cui proprietà sono le variabili che puoi usare nel template
   data() {
     return {
       wid: window.innerWidth,
@@ -170,12 +171,14 @@ export default {
       selectedObj: "",
     };
   },
-
+// life cycle method che viene automaticamente richiamato da vue una volta che il componente è stato creato
   created() {
     const url =
       "https://os.smartcommunitylab.it/comuneintasca-multi/restaurants/TrentoInTasca";
     const data_default = { center: [46.067369, 11.121311], radius: 0.01 };
+// pacchetto esterno che serve a fare chiamate http
     axios
+    // post = tipo di chiamata http in cui vengono passati i dati codificati nella richiesta
       .post(url, data_default)
       .then((res) => {
         const populate = res.data.map((item) => this.items.push(item));
@@ -198,14 +201,16 @@ export default {
         console.log(err);
       });
   },
-
+//mapGetters prende il getter (vedi store.js) dello user, che fa parte dello stato globale dell'app (vuex gestisce lo stato globale)
+  //computed properties possono cambiare nel tempo in base ai cambiamenti 
   computed: {
     ...mapGetters({
       user: "user",
     }),
   },
-
+// è un oggetto che contiene una serie di funzioni come proprietà
   methods: {
+    // load: function(val) {...}
     load(val) {
       switch (val) {
         case "all":
@@ -224,9 +229,10 @@ export default {
           localStorage.setItem("toSearch", val);
           this.$router.replace({ name: "List" });
           break;
+          //default: break;
       }
     },
-
+// async gestisce sempre promise 
     async sendSuggestion() {
       const db = firebase.firestore();
       this.error = null;
@@ -237,6 +243,14 @@ export default {
       } else if (this.phone == undefined || this.phone == "") {
         this.error = "Inserisci il numero di telefono.";
       } else {
+ //       try {
+ //         await db
+ //           .collection("suggestions")
+ //           .doc()
+ //           .set({ name: this.name, restname: this.restname, phone: this.phone });
+ //         this.showSnackbar = true;
+ //       }
+ //       catch(err) { ... }
         await db
           .collection("suggestions")
           .doc()
@@ -246,7 +260,8 @@ export default {
           });
       }
     },
-
+// evt = evento
+// dice se il carattere inserito è un numero oppure no
     isNumber: function(evt) {
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;
@@ -386,7 +401,7 @@ export default {
   flex-direction: column;
   justify-content: space-around;
 }
-
+/* @media serve per il responsive */
 @media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
   .container {
     height: 42vh;

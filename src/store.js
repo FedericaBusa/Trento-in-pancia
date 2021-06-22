@@ -10,7 +10,7 @@ export default new Vuex.Store({
       data: null
     }
   },
-
+// funzioni che ritornano valori
   getters: {
     user(state){
       return state.user
