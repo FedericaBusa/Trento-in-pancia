@@ -9,14 +9,15 @@ import List from '../components/List'
 
 Vue.use(Router)
 
+
 const router = new Router({
     mode: 'history',
     base: process.env.BASE_URL,
     routes: [
         {
-        path: '/login',
-        name: 'Login',
-        component: Login
+        path: '/login', // url di richiesta (this.$router.replace(x))
+        name: 'Login', // x
+        component: Login // a che componente andare
     },
     {
         path: '/register',

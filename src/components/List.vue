@@ -1,4 +1,4 @@
-blue<template>
+<template>
   <div>
     <div style="display: flex; justify-content:center">
       <md-button @click="load('all')">Tutti</md-button>
@@ -317,7 +317,7 @@ export default {
       user: "user",
     }),
   },
-  created() {
+  created() { // guardo da dove arrivo 
     this.load(localStorage.getItem("toSearch"));
   },
 
@@ -325,6 +325,7 @@ export default {
     load(val) {
       localStorage.setItem("toSearch", val);
       this.search = localStorage.getItem("toSearch");
+      //carica i dati delle api
       const url =
         "https://os.smartcommunitylab.it/comuneintasca-multi/restaurants/TrentoInTasca";
       const data_default = { center: [46.067369, 11.121311], radius: 0.01 };
@@ -374,12 +375,12 @@ export default {
         .then(function(querySnapshot) {
           var s = 0;
           if (!querySnapshot.empty) {
-            querySnapshot.forEach((d) => {
+            querySnapshot.forEach((d) => { // somma i voti
               s += d.data().stars;
             });
-            vueInstance.selected.average = (s / querySnapshot.size).toFixed(1);
-            vueInstance.selected.nvotes = querySnapshot.size;
-            vueInstance.stars = vueInstance.selected.average;
+            vueInstance.selected.average = (s / querySnapshot.size).toFixed(1); // media voti
+            vueInstance.selected.nvotes = querySnapshot.size; // quanti voti ci sono
+            vueInstance.stars = vueInstance.selected.average; // imposta il voto alle stelle
 
             if (vueInstance.user.loggedIn == true) {
               db.collection("votes")
@@ -398,6 +399,7 @@ export default {
         });
 
       //get fav
+      // trova se ho messo mi piace
       if (this.user.loggedIn == true) {
         db.collection("favorites")
           .where("restid", "==", this.selected.id)
@@ -419,17 +421,17 @@ export default {
       }
     },
 
-    setStar(s) {
-      this.stars = s;
+    setStar(starInput) {
+      this.stars = starInput;
       this.showStarConfirm = true;
     },
 
     sendVote() {
       const db = firebase.firestore();
-      if (this.user.loggedIn == false) {
+      if (this.user.loggedIn == false) { 
         this.showSnackbar = true;
       } else {
-        if (this.selected.docid) {
+        if (this.selected.docid) { // ha già votato quindi modifica il voto
           db.collection("votes")
             .doc(this.selected.docid)
             .update({ stars: this.stars })
@@ -437,7 +439,7 @@ export default {
               this.showStarConfirm = false;
               //this.showDialog = false;
             });
-        } else {
+        } else { // lo inserisce nuovo
           db.collection("votes")
             .doc()
             .set({
@@ -461,12 +463,11 @@ export default {
     },
 
     sendFavorite(e,v) {
-      console.log(e.target);
       const db = firebase.firestore();
       if (this.user.loggedIn == false) {
         this.showSnackbar = true;
       } else {
-        if (!v.favorites) {
+        if (!v.favorites) { // non è tra i mi piae -> lo inserisco
           db.collection("favorites")
             .doc()
             .set({
@@ -476,13 +477,12 @@ export default {
             })
             .then(() => {
               //operatore ternario --> if (e.sty === 'red) {} else {}
-              console.log ("ciao")
               e.target.style.color === 'red' ? e.target.style.color = 'grey' : e.target.style.color= 'red'
             })
             .catch((err) => {
               console.log(err);
             });
-        } else {
+        } else { // è tra i mi piace -> lo cancello
           db.collection("favorites")
             .doc(v.docfav)
             .delete()

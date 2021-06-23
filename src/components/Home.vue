@@ -41,7 +41,7 @@
       </div>
       <div class="links-item">
         <h2>{{ rest.length }}</h2>
-        <p>Ristoranti e pizzerie, l'eccellenza italiana.</p>
+        <p style="line-height:30px">Ristoranti e pizzerie, l'eccellenza italiana.</p>
         <md-button
           style="background-color: #58a3ff; color: #fff;border-radius:10px; margin: 0 auto; padding: 2px 15px;"
           @click="load('rest')"
@@ -132,11 +132,7 @@
       <dl
         style="display: flex; width: 50%; height: auto; margin: 0 auto; display: flex; align-self: center; transform: translateY(100px); justify-content: space-around"
       >
-        <p><a href="/" style="color: black">Home</a></p>
-        <p><a href="/list" style="color: black">Lista</a></p>
-        <p><a href="/space" style="color: black">Space</a></p>
-        <p><a href="/login" style="color: black">Login</a></p>
-        <p><a href="/register" style="color: black">Registrazione</a></p>
+      
       </dl>
       <p
         style="position:absolute; bottom:0; bottom:0px; right:25%; left:50%; margin-right: 10px;"
@@ -156,35 +152,42 @@ export default {
   //funzione che ti ritorna un oggetto le cui proprietà sono le variabili che puoi usare nel template
   data() {
     return {
-      wid: window.innerWidth,
-      items: [],
-      bar: [],
+      wid: window.innerWidth, // larghezza dello schermo per responsive
+      items: [], // tutti gli elementi
+      bar: [], 
       rest: [],
       other: [],
+      //form di suggerimento
       name: "",
       restname: "",
       phone: "",
       error: null,
-      snackbarDuration: 4000,
+      snackbarDuration: 4000, //4s
       showSnackbar: false,
-      search: [],
-      selectedObj: "",
+      search: [], // dati select box
+      selectedObj: "", // quello su cui clicchi
     };
   },
-// life cycle method che viene automaticamente richiamato da vue una volta che il componente è stato creato
+// life cycle method che viene automaticamente richiamato da vue una volta che il componente è stato creato, una volta e basta
   created() {
+    // link API
     const url =
       "https://os.smartcommunitylab.it/comuneintasca-multi/restaurants/TrentoInTasca";
-    const data_default = { center: [46.067369, 11.121311], radius: 0.01 };
-// pacchetto esterno che serve a fare chiamate http
+    const data_default = { center: [46.067369, 11.121311], radius: 0.01 }; // geoloc di Trento
+    // pacchetto esterno che serve a fare chiamate http
     axios
     // post = tipo di chiamata http in cui vengono passati i dati codificati nella richiesta
-      .post(url, data_default)
-      .then((res) => {
-        const populate = res.data.map((item) => this.items.push(item));
-        const populateSearch = this.items.map((item) =>
+    .post(url, data_default)
+    .then((res) => {
+        console.log(res.data)
+        const populate = res.data.map((item) => this.items.push(item)); // dalle API -> il nostro VUE 
+        const populateSearch = this.items.map((item) => // popola la select box di ricerca
           this.search.push(item.title.it)
         );
+        // filtra i dati delle API dentro RESTAURANT
+        // 'filter' scorre l'oggetto e per ogni item tiene quello cui la categoria è ristorante o pizzeria
+
+
         this.rest = res.data.filter(
           (item) =>
             item.cat.it[0] == "Ristorante" || item.cat.it[0] == "Pizzeria"
@@ -211,11 +214,11 @@ export default {
 // è un oggetto che contiene una serie di funzioni come proprietà
   methods: {
     // load: function(val) {...}
-    load(val) {
-      switch (val) {
+    load(val) { // dice cosa bisogna cercare 
+      switch (val) { 
         case "all":
-          localStorage.setItem("toSearch", val);
-          this.$router.replace({ name: "List" });
+          localStorage.setItem("toSearch", val); // imposta la "memoria" a cosa vogliamo cercare
+          this.$router.replace({ name: "List" }); // rimanda a list
           break;
         case "rest":
           localStorage.setItem("toSearch", val);
@@ -251,7 +254,9 @@ export default {
  //         this.showSnackbar = true;
  //       }
  //       catch(err) { ... }
-        await db
+
+ // inserisce a database il suggerimento
+        await db 
           .collection("suggestions")
           .doc()
           .set({ name: this.name, restname: this.restname, phone: this.phone })
@@ -261,7 +266,7 @@ export default {
       }
     },
 // evt = evento
-// dice se il carattere inserito è un numero oppure no
+// dice se il carattere inserito è un numero oppure no, ogni carattere ha un codice numerico, se è nellìintervall specificato non lo inserisce altrimenti lo inserisce
     isNumber: function(evt) {
       evt = evt ? evt : window.event;
       var charCode = evt.which ? evt.which : evt.keyCode;
@@ -273,12 +278,12 @@ export default {
     },
 
     searchFunc() {
-      const it = this.items.filter(
+      const it = this.items.filter( // filtra nei ristoranti chi non ha il nome uguale a quello che ho cercato
         (item) => item.title.it === this.selectedObj
       );
       localStorage.setItem("search", JSON.stringify(it));
       this.selectedObj = this.selectedObj.replace(/ /g, "_");
-      this.$router.replace({ name: "Search", query: { s: this.selectedObj } });
+      this.$router.replace({ name: "Search", query: { s: this.selectedObj } }); 
     },
   },
 };

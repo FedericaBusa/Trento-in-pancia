@@ -106,6 +106,7 @@ export default {
 </script>
 
 <style scoped>
+  /* animazione del pulsante home */
 .btn {
   display: inline-block;
   position: relative;

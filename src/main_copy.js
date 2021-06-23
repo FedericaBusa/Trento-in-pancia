@@ -12,6 +12,7 @@ Vue.use(VueMaterial)
 
 Vue.config.productionTip = false;
 
+//configurazione database
 const configOptions = {
   apiKey: "",
   authDomain: "",
@@ -26,6 +27,7 @@ firebase.initializeApp(configOptions);
 firebase.auth().onAuthStateChanged(user => {
   store.dispatch("fetchUser", user);
 });
+//inizializza l'applicazione Vue
 new Vue({
   router,
   store,

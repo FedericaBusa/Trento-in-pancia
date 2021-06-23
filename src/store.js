@@ -1,6 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
+//VUEX = contenitore condiviso di variabili 
+// una cartella che sta sopra tutto
+
 Vue.use(Vuex);
 
 export default new Vuex.Store({
@@ -11,12 +14,12 @@ export default new Vuex.Store({
     }
   },
 // funzioni che ritornano valori
-  getters: {
+  getters: { // ritoranano i dati quando li chiediamo
     user(state){
       return state.user
     }
   },
-  mutations: {
+  mutations: { // chiamati quando cambiano
     SET_LOGGED_IN(state, value) {
       state.user.loggedIn = value;
     },
@@ -24,7 +27,7 @@ export default new Vuex.Store({
       state.user.data = data;
     }
   },
-  actions: {
+  actions: { // funzioni che modificano lo stato
     fetchUser({ commit }, user) {
       commit("SET_LOGGED_IN", user !== null);
 

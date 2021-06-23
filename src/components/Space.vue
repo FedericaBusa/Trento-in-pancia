@@ -123,7 +123,7 @@ export default {
       this.load = [];
       this.filter = v;
       if (this.user.loggedIn) {
-        if (v === "fav") {
+        if (v === "fav") { //  va a prendersi i mi piace dal db
           await db
             .collection("favorites")
             .where("usermail", "==", this.user.data.email)
@@ -134,17 +134,17 @@ export default {
                   id: d1.id,
                   data: d1.data(),
                 };
-                this.load.push(obj);
+                this.load.push(obj); // lista degli elementi
               });
             });
-        } else {
+        } else { //  va a prendersi i voti dal db
           await db
             .collection("votes")
             .where("usermail", "==", this.user.data.email)
             .get()
             .then((d) => {
               d.forEach((d1) => {
-                this.load.push(d1.data());
+                this.load.push(d1.data()); // lista degli elementi 
               });
             });
         }
