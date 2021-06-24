@@ -30,81 +30,93 @@
 
     <md-dialog :md-active.sync="showDialog">
       <template v-if="wid > 376">
-        <md-dialog-title style="padding:10px;font-size:25px;text-align:center"
-          >Dettaglio Ristorante</md-dialog-title
+        <div
+          v-if="selected"
+          style="width:100%;display:flex;flex-direction:row;justify-content:space-between;align-items:center;margin-bottom: 20px"
         >
-        <div style="display:flex;width:100%;" v-if="selected">
-          <div style="width:50%;height:100%;align-self:flex-start">
-            <img :src="selected.image" style="height: 250px; width: 250px" />
+          <md-dialog-title
+            style="padding:10px 0;font-size:25px;text-align:left;margin: 0"
+          >{{ selected.title.it }}</md-dialog-title>
+          <md-button
+            style="align-self:center;margin: 0px"
+            @click="sendFavorite($event,selected)"
+            ><md-icon
+              :style="{ color: selected.favorites === true ? 'red' : '' }"
+              >favorite</md-icon
+            ></md-button>
+        </div>
+
+        <div style="display:flex;width:100%;min-width:620px" v-if="selected">
+          <div style="width:50%;height:100%;align-self:flex-start;display:flex">
+            <img :src="selected.image" style="max-width:90%;min-width:250px" />
           </div>
           <div style="width:50%">
-            <p style="padding:10px;font-size:20px">
-              Nome: {{ selected.title.it }} <br />
-              Categoria: {{ selected.cat.it[0] }} <br />
-              Telefono: {{ selected.contacts.phone }} <br />
-              <md-button style="background-color:#c5e1a5;border-radius:10px">
-                Chiama ora <md-icon>phone</md-icon>
-              </md-button>
-              <md-button
-                style="align-self:center;margin-left:15px"
-                @click="sendFavorite(selected)"
-                ><md-icon
-                  :style="{ color: selected.favorites === true ? 'red' : '' }"
-                  >favorite</md-icon
-                ></md-button
-              >
-            </p>
+            <div style="padding: 0px;font-size:20px;">
+              <p style="margin: 0 0 16px">
+                Categoria: {{ selected.cat.it[0] }}
+              </p>
+              <p style="margin: 0 0 16px">
+                Telefono: {{ selected.contacts.phone }}
+              </p>
 
-            <div style="display:flex; padding:10px;font-size:18px">
-              <div style="display: flex; flex-direction:column;">
+              <div style="margin: 0 0 16px">
+                <md-button style="background-color:#c5e1a5;border-radius:10px;margin: 0">
+                  <div style="display:flex;align-items:center">
+                    Chiama ora<md-icon style="margin-left:8px">phone</md-icon>
+                  </div>
+                </md-button>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction: column;font-size:18px">
+              <div style="display: flex; flex-direction:column; margin-bottom: 16px">
                 <div>
                   Lascia un voto:
                 </div>
                 <div style="display:flex; margin-top: 10px">
                   <li @click="setStar(1)" style="list-style-type:none">
                     <md-icon
-                      style="margin-left:10px"
+                      style="margin-left:0"
                       :style="{ color: stars >= 1 ? 'gold' : '' }"
                       >star</md-icon
                     >
                   </li>
                   <li @click="setStar(2)" style="list-style-type:none">
                     <md-icon
-                      style="margin-left:10px"
+                      style="margin-left:0"
                       :style="{ color: stars >= 2 ? 'gold' : '' }"
                       >star</md-icon
                     >
                   </li>
                   <li @click="setStar(3)" style="list-style-type:none">
                     <md-icon
-                      style="margin-left:10px"
+                      style="margin-left:0"
                       :style="{ color: stars >= 3 ? 'gold' : '' }"
                       >star</md-icon
                     >
                   </li>
                   <li @click="setStar(4)" style="list-style-type:none">
                     <md-icon
-                      style="margin-left:10px"
+                      style="margin-left:0"
                       :style="{ color: stars >= 4 ? 'gold' : '' }"
                       >star</md-icon
                     >
                   </li>
                   <li @click="setStar(5)" style="list-style-type:none">
                     <md-icon
-                      style="margin-left:10px"
+                      style="margin-left:0"
                       :style="{ color: stars >= 5 ? 'gold' : '' }"
                       >star</md-icon
                     >
                   </li>
                 </div>
               </div>
-
-              <br />
               <div
-                style="width: 100%; display: flex; align-items: center;  justify-content: center;"
+                style="width: 100%; display: flex; align-items: center;  justify-content: left;"
+                v-if="selected.nvotes > 0"
               >
-                Media: {{ selected.average }} da {{ selected.nvotes }}
-                {{ selected.nvotes > 1 ? "voti" : "voto" }}
+                Media: {{ selected.average }} ({{ selected.nvotes }}
+                {{ selected.nvotes > 1 ? "voti" : "voto" }})
               </div>
             </div>
           </div>
@@ -134,7 +146,7 @@
               </md-button>
               <md-button
                 style="align-self:center;margin-left:15px"
-                @click="sendFavorite(selected)"
+                @click="sendFavorite($event,selected)"
                 ><md-icon
                   :style="{ color: selected.favorites === true ? 'red' : '' }"
                   >favorite</md-icon
@@ -361,7 +373,7 @@ export default {
       this.$router.replace({ name: "Login" });
     },
 
-    sendFavorite(v) {
+    sendFavorite(e,v) {
       const db = firebase.firestore();
       if (this.user.loggedIn == false) {
         this.showSnackbar = true;
@@ -375,7 +387,7 @@ export default {
               restname: this.selected.title.it,
             })
             .then(() => {
-              this.showDialog = false;
+              e.target.style.color === 'red' ? e.target.style.color = 'grey' : e.target.style.color= 'red'
             })
             .catch((err) => {
               console.log(err);
@@ -385,7 +397,7 @@ export default {
             .doc(v.docfav)
             .delete()
             .then(() => {
-              this.showDialog = false;
+              e.target.style.color === 'red' ? e.target.style.color = 'grey' : e.target.style.color= 'red'
             })
             .catch((err) => {
               console.log(err);
@@ -402,7 +414,7 @@ export default {
   padding: 50px;
   border-radius: 10px;
   font-size: 30px;
-  text-align: center;
+  text-align: left;
   min-height: 200px !important;
 }
 </style>

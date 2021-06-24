@@ -23,6 +23,10 @@
   </div>
 </template>
 
+localhost:3000
+
+localhost:3000/
+
 <script>
 import firebase from "firebase";
 export default {
@@ -42,7 +46,7 @@ export default {
         this.error = 'La password è vuota.'
       } else {
         firebase.auth().signInWithEmailAndPassword(this.email, this.password).then(data => {
-          this.$router.replace({name: 'Home'})
+          this.$router.replace({name: 'Home'}) // rimanda alla home al login
         }).catch(err => {
           this.error = err.message
         })

@@ -477,12 +477,13 @@ export default {
             })
             .then(() => {
               //operatore ternario --> if (e.sty === 'red) {} else {}
+              console.log ("ciao")
               e.target.style.color === 'red' ? e.target.style.color = 'grey' : e.target.style.color= 'red'
             })
             .catch((err) => {
               console.log(err);
             });
-        } else { // è tra i mi piace -> lo cancello
+        } else { // è tra i mi piace -> lo ca
           db.collection("favorites")
             .doc(v.docfav)
             .delete()
