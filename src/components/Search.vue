@@ -1,31 +1,32 @@
 <template>
   <div>
-    <div style="display: flex;flex-wrap:wrap;width:100%; align-self:center">
-      <h1>Ristorante trovato</h1>
+    <div style="text-align:center;">
+      <h1>Risultati ricerca</h1>
     </div>
     <div
-      style="display: flex;flex-wrap:wrap;width:70%; margin:0 auto;margin-top: 10%"
+      style="display: flex;flex-wrap:wrap;margin-top:30px;padding: 0 12px; justify-content: center"
     >
-      <template>
-        <img
-          :src="search.image"
-          alt="immagine"
-          style="width:200px;height:200px;border-radius:10px"
-          v-if="search.image != undefined"
-        />
-        <div
-          style="width:200px;height:200px;background-color:#ccc; display: flex; justify-content:center; align-items: center; border-radius: 10px"
-          v-else
-        >
-          Immagine non disponibile
-        </div>
-        <md-button
-          @click="openInfo(search)"
-          style="align-self:center; font-size: 1.15rem"
-        >
-          {{ search.title.it }} <md-icon>search</md-icon>
-        </md-button>
-      </template>
+      <md-card
+        style="width: 200px;margin: 0 12px 24px"
+        @click.native="openInfo(search)"
+      >
+        <md-card-media style="height: 200px">
+          <img :src="search.image" v-if="search.image != undefined" style="height: 100%;object-fit: cover"/>
+        </md-card-media>
+
+        <md-card-header>
+          <div class="md-title" style="font-size: 20px">{{search.title.it}}</div>
+          <!--<div class="md-subhead">
+            <div style="display:flex; margin-top: 10px">
+              <md-icon
+                style="margin-left:0"
+                :style="{ color: stars >= 1 ? 'gold' : '' }"
+              >star</md-icon>
+              {{f}}
+            </div>
+          </div>-->
+        </md-card-header>
+      </md-card>
     </div>
 
     <md-dialog :md-active.sync="showDialog">
