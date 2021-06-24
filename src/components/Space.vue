@@ -23,12 +23,16 @@
         >
           <template v-if="filter == 'fav'">
             <div
-              style="display:flex; width: 100%; justify-content:space-around"
+              class="item"
+              style="display: flex; justify-content: space-between;"
             >
               <p>
                 <strong>{{ f.data.restname }} </strong>
               </p>
-              <md-button @click="deleteFavorite(f)">
+              <md-button
+                @click="deleteFavorite(f)"
+                style="min-width:unset;"
+              >
                 <md-icon>close</md-icon>
               </md-button>
             </div>
